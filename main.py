@@ -1,8 +1,5 @@
-import sys
 import queue
 import numpy as np
-
-
 
 def main(filename, part2=True):
     file = [line.strip() for line in open(filename).readlines()]
@@ -10,7 +7,8 @@ def main(filename, part2=True):
     temporary = np.empty([8,9],dtype=str)
 
     for index, line in enumerate(file):
-        if index > 7 : continue
+        if index > 7 : 
+            continue
 
         add_line = np.array(list(line[1::4]),dtype=str)
         if (size := np.shape(add_line)[0]) < 9 :
@@ -29,18 +27,20 @@ def main(filename, part2=True):
     evaluate_command = lambda string : [int(num) for num in string.split() if num.isnumeric()]
 
     for index, line in enumerate(file):
-        if index <= 9 : continue
+        if index <= 9 : 
+            continue
+        
         qty, fro, to = evaluate_command(line)
         fro, to = fro-1, to-1
 
         if part2:
             crane = queue.LifoQueue()
-            for i in range(qty):
+            for _ in range(qty):
                 crane.put(ship[fro].get())
-            for j in range(qty):
+            for _ in range(qty):
                 ship[to].put(crane.get())
         else:
-            for i in range(qty):
+            for _ in range(qty):
                 ship[to].put(ship[fro].get())
 
     [print(line.get(), end='') for line in ship]
